@@ -1,9 +1,9 @@
 const queries = {
-  getAllItems: 'SELECT * FROM Users',
-  getItemById: 'SELECT * FROM Users WHERE id = $1',
-  createItem: 'INSERT INTO Users (email, password) VALUES ($1, $2) RETURNING *',
-  updateItem: 'UPDATE Users SET name = $1, description = $2 WHERE id = $3 RETURNING *',
-  deleteItem: 'DELETE FROM Users WHERE id = $1 RETURNING *',
+    getAllUsers: 'SELECT * FROM Users',
+    getUserById: 'SELECT * FROM Users WHERE id = $1',
+    createUser: 'INSERT INTO Users (email, password) VALUES ($1, $2) RETURNING *',
+    updateUser: 'UPDATE Users SET email = $1, password = $2 WHERE id = $3 RETURNING *',
+    deleteUser: 'DELETE FROM Users WHERE id = $1 RETURNING *',
 };
 
-export default queries;
+module.exports = queries;
