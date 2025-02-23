@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String?
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  tasks     Task[]
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  status      String   @default("NEW")
+  priority    String   @default("MEDIUM")
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  tags        Tag[]
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  tasks Task[]
+}
+
+model Metadata{
+  id    Int    @id @default(autoincrement())
+  apiVersion Float @default(0.1)
+  apiName  String @unique
+  clients AppClients[]
+}
+
+model AppClients{
+  id    Int    @id @default(autoincrement())
+  name String
+  browser  String
+  metadataId Int
+  metadata Metadata @relation(fields: [metadataId], references: [id])
+}
