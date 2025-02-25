@@ -6,7 +6,11 @@ import { notFound } from "next/navigation";
 
 // Load a blog post dynamically
 const getPost = (slug: string) => {
-  const filePath = path.join(process.cwd(), "public/content/blog", `${slug}.md`);
+  const filePath = path.join(
+    process.cwd(),
+    "public/content/blog",
+    `${slug}.md`
+  );
 
   if (!fs.existsSync(filePath)) {
     return null;

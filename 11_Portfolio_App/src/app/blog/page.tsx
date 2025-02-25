@@ -15,7 +15,7 @@ async function getBlogs() {
 
       return {
         slug: filename.replace(".md", ""),
-        title: data.title ,
+        title: data.title,
         date: data.date,
       };
     })
