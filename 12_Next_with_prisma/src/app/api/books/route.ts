@@ -6,12 +6,8 @@ const prisma = new PrismaClient()
 
 export async function GET() {
   try {
-    const category = await prisma.category.findMany({
-      include: {
-        courses: true 
-      }
-    })
-    return NextResponse.json(category)
+    const books = await prisma.book.findMany()
+    return NextResponse.json(books)
   } catch (error) {
     console.error('Error fetching categories:', error)
     return NextResponse.json(

@@ -14,23 +14,23 @@ async function getCategories() {
   return res.json();
 }
 
-export default async function CategoriesPage() {
-  const categories = await getCategories();
+export default async function BookPage() {
+  const books = await getCategories();
 
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Categories</h1>
+        <h1 className="text-3xl font-bold">Books</h1>
         <Link
           href="/courses/new"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          Add New Category
+          Add New Book
         </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map((categories: Category) => (
+        {books.map((categories: Books) => (
           <div key={categories.id}>
             <Link href={`/categories/${categories.id}`}>
               <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">

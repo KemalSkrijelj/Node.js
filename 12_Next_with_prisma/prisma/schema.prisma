@@ -14,6 +14,7 @@ model Category {
   id          Int      @id @default(autoincrement())
   name        String
   description String?
+  duration    Int?
   courses     Course[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -24,11 +25,18 @@ model Course {
   title       String
   instructor  String
   description String?
-  duration    Int
+  duration    Int?
   category    Category? @relation(fields: [categoryId], references: [id])
   categoryId  Int?      // Optional category
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
 
+model Books {
+  id          Int       @id @default(autoincrement())
+  title       String
+  author      String 
+  description String?
+  lists    Int?
+}
 

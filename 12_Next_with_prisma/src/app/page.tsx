@@ -15,6 +15,12 @@ export default function HomePage() {
       >
         View Categories
       </Link>
+      <Link
+        href="/books"
+        className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-medium hover:bg-blue-600 transition-colors"
+      >
+        View Books
+      </Link>
     </div>
   )
 }
