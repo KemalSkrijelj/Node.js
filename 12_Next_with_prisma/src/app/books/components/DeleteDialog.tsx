@@ -4,27 +4,27 @@ import { useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface Props {
-  courseId: number
-  courseTitle: string
+  bookId: number
+  bookTitle: string
 }
 
-export function DeleteDialog({ courseId, courseTitle }: Props) {
+export function DeleteDialog({ bookId, bookTitle }: Props) {
   const router = useRouter()
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`/api/courses/${courseId}`, {
+      const res = await fetch(`/api/books/${bookId}`, {
         method: 'DELETE',
       })
 
-      if (!res.ok) throw new Error('Failed to delete course')
+      if (!res.ok) throw new Error('Failed to delete book')
 
-      router.push('/courses')
+      router.push('/books')
       router.refresh()
     } catch (error) {
       console.error('Error:', error)
-      alert('Failed to delete course')
+      alert('Failed to delete book')
     } finally {
       dialogRef.current?.close()
     }
@@ -46,7 +46,7 @@ export function DeleteDialog({ courseId, courseTitle }: Props) {
 
       <dialog ref={dialogRef} className="rounded-lg p-6 backdrop:bg-gray-500/50">
         <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-        <p className="mb-6">Are you sure you want to delete &quot;{courseTitle}&quot;?</p>
+        <p className="mb-6">Are you sure you want to delete &quot;{bookTitle}&quot;?</p>
         <div className="flex justify-end gap-4">
           <button
             onClick={() => dialogRef.current?.close()}

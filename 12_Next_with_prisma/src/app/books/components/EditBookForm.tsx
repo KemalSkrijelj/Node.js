@@ -5,23 +5,23 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Course } from "@prisma/client";
+import { Books } from "@prisma/client";
 
 const formSchema = z.object({
-  title: z.string().min(1, "Course title is required"),
-  instructor: z.string().min(1, "Instructor name is required"),
+  title: z.string().min(1, "Book title is required"),
+  author: z.string().min(1, "Author name is required"),
   description: z.string().optional(),
   duration: z
     .number()
-    .min(1, "Duration is required")
+    .min(1, "Lists is required")
     .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-      message: "Duration must be a positive number",
+      message: "Lists must be a positive number",
     }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function EditCourseForm({ course }: { course: Course }) {
+export default function EditBookForm({ book }: { book: Books }) {
   const router = useRouter();
   const {
     register,
@@ -30,16 +30,16 @@ export default function EditCourseForm({ course }: { course: Course }) {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: course.title,
-      instructor: course.instructor,
-      description: course.description || "",
-      duration: Number(course.duration),
+      title: book.title,
+      author: book.author,
+      description: book.description || "",
+      duration: Number(book.lists),
     },
   });
 
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await fetch(`/api/courses/${course.id}`, {
+      const res = await fetch(`/api/books/${book.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -47,23 +47,23 @@ export default function EditCourseForm({ course }: { course: Course }) {
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error("Failed to update course");
+      if (!res.ok) throw new Error("Failed to update book");
 
-      router.push(`/courses/${course.id}`);
+      router.push(`/courses/${book.id}`);
       router.refresh();
     } catch (error) {
       console.error(error);
-      alert("Failed to update course");
+      alert("Failed to update book");
     }
   };
 
   return (
     <div className="p-8">
       <Link
-        href={`/courses/${course.id}`}
+        href={`/books/${book.id}`}
         className="text-blue-500 hover:text-blue-700 mb-4 inline-block"
       >
-        ← Back to Course
+        ← Back to Book
       </Link>
 
       <div className="max-w-2xl mx-auto">
@@ -91,13 +91,13 @@ export default function EditCourseForm({ course }: { course: Course }) {
               Instructor *
             </label>
             <input
-              {...register("instructor")}
+              {...register("author")}
               type="text"
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
             />
-            {errors.instructor && (
+            {errors.author && (
               <p className="mt-1 text-sm text-red-600">
-                {errors.instructor.message}
+                {errors.author.message}
               </p>
             )}
           </div>
@@ -120,7 +120,7 @@ export default function EditCourseForm({ course }: { course: Course }) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Duration (hours) *
+              Lists:
             </label>
             <input
               {...register("duration")}

@@ -7,20 +7,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
-  title: z.string().min(1, "Course title is required"),
-  instructor: z.string().min(1, "Instructor name is required"),
+  title: z.string().min(1, "Book title is required"),
+  author: z.string().min(1, "Author name is required"),
   description: z.string().optional(),
-  duration: z
-    .number()
-    .min(1, "Duration is required")
-    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-      message: "Duration must be a positive number",
-    }),
+  duration: z.coerce.number().min(1, "Duration is required"),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function CreateCourseForm() {
+export default function CreateBookForm() {
   const router = useRouter();
   const {
     register,
@@ -31,8 +26,9 @@ export default function CreateCourseForm() {
   });
 
   const onSubmit = async (data: FormData) => {
+
     try {
-      const res = await fetch("/api/courses", {
+      const res = await fetch("/api/books", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,32 +36,32 @@ export default function CreateCourseForm() {
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error("Failed to create course");
+      if (!res.ok) throw new Error("Failed to create book");
 
-      router.push("/courses");
+      router.push("/books");
       router.refresh();
     } catch (error) {
       console.error(error);
-      alert("Failed to create course");
+      alert("Failed to create book");
     }
   };
 
   return (
     <div className="p-8">
       <Link
-        href="/courses"
+        href="/books"
         className="text-blue-500 hover:text-blue-700 mb-4 inline-block"
       >
-        ← Back to Courses
+        ← Back to Books
       </Link>
 
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Add New Course</h1>
+        <h1 className="text-3xl font-bold mb-6">Add New Book</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Course Title *
+              Book Title *
             </label>
             <input
               {...register("title")}
@@ -81,16 +77,16 @@ export default function CreateCourseForm() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Instructor *
+              Author *
             </label>
             <input
-              {...register("instructor")}
+              {...register("author")}
               type="text"
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
             />
-            {errors.instructor && (
+            {errors.author && (
               <p className="mt-1 text-sm text-red-600">
-                {errors.instructor.message}
+                {errors.author.message}
               </p>
             )}
           </div>
@@ -113,7 +109,7 @@ export default function CreateCourseForm() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Duration (hours) *
+              Lists:
             </label>
             <input
               {...register("duration")}
@@ -135,7 +131,7 @@ export default function CreateCourseForm() {
               className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 
                 ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              {isSubmitting ? "Creating..." : "Create Course"}
+              {isSubmitting ? "Creating..." : "Create Book"}
             </button>
           </div>
         </form>
