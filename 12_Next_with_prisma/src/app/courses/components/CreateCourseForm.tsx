@@ -13,10 +13,16 @@ const formSchema = z.object({
   duration: z
     .number()
     .min(1, "Duration is required")
+<<<<<<< HEAD
     .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
       message: "Duration must be a positive number",
     }),
 });
+=======
+    .transform((val) => Number(val))
+    .refine((val) => val > 0, "Duration must be a positive number")
+})
+>>>>>>> f250926fdc3f4eee8b0691595dfe34c4ccf60946
 
 type FormData = z.infer<typeof formSchema>;
 

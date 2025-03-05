@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Books } from "@prisma/client";
 import Link from "next/link";
 import { DeleteDialog } from "./components/DeleteDialog";
@@ -55,3 +56,13 @@ export default async function BookPage() {
     </div>
   );
 }
+=======
+import React from 'react'
+
+
+export default function Page() {
+  return (
+    <div>Books page</div>
+  )
+}
+>>>>>>> f250926fdc3f4eee8b0691595dfe34c4ccf60946
